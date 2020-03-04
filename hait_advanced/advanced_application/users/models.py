@@ -72,3 +72,4 @@ class User(AbstractUser):
 
     # class Meta(AbstractUser.Meta):
     #     swappable = 'AUTH_USER_MODEL'
+    

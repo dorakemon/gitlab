@@ -20,6 +20,7 @@ from django_registration.backends.one_step.views import RegistrationView
 
 from core.views import IndexTemplateView
 from users.forms import CustomUserForm
+#from django.views.generic.simple import redirect_to
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,5 +44,9 @@ urlpatterns = [
 
     path('accounts/', include("django.contrib.auth.urls")),
 
-    re_path("", IndexTemplateView.as_view(), name="entry-point")
+    re_path("", IndexTemplateView.as_view(), name="entry-point"),
+
+    # patterns('',   
+    # (r'^.*$', redirect_to, {'url': 'http://www.newdomain.com'}))
+    
 ]

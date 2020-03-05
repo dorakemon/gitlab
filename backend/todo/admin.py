@@ -4,7 +4,9 @@ from django.contrib import admin
 from .models import Group, Column, Todo
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ("uuid","name")
+    list_display = ("uuid","name","_column")
+    def _column(self, row):
+        return ',  '.join([x.name for x in row.column.all()])
 
 class ColumnAdmin(admin.ModelAdmin):
     # list_display = ("name")

@@ -9,11 +9,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import Group
+from .models import Todo
 
 import sys
 sys.path.append('../')
 from users.models import User
-
 
 @receiver(post_save, sender=User)
 # createdは送られたかどうかのTrue、False
@@ -24,10 +24,14 @@ def post_save_user_signal_handler(sender, instance, created, **kwargs):
         group = Group.objects.create(name="personal_todos_for_{}".format(instance)) 
         user=User.objects.get(username=str(instance))
         group.user_in_group.add(user)
+        # 1,2,3はそれぞれTO DO, IN PROGRESS, DONE
+        group.column.add(1,2,3)
         # print(instance)
         # print(created)
         # print(sender)
 
-# @receiver(post_save, sender=Todo)
-# def Todo
-
+@receiver(post_save, sender=Group)
+def post_save_todo_add_column(sender, instance, created, **kwargs):
+    if created:
+        group = Group.objects.get(name=instance)
+        group.column.add(1,2,3)

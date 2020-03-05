@@ -77,7 +77,7 @@ class User(AbstractUser):
     university_faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name="personal_university_faculty", null=True, verbose_name="大学・学部")
 
     course = models.ManyToManyField(Course, related_name="personal_course", verbose_name="コース", null=True)
-    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="personal_place", null=True, verbose_name="開催場所")
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="personal_place", default=1, verbose_name="開催場所")
 
     description = models.TextField(max_length=1023, null=True, blank=True, verbose_name="説明")
     # class Meta(AbstractUser.Meta):

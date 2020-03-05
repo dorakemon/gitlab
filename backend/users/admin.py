@@ -1,9 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from django.contrib import admin
-
-# Register your models here.
 from .models import University, Faculty, Course, Place, User
 
 from django.contrib.auth.admin import UserAdmin

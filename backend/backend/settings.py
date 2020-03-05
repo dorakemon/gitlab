@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'djoser',
 
     'todo',
-    'user',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +130,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+
+
+AUTH_USER_MODEL = 'users.User'

@@ -48,11 +48,6 @@ class GroupSerializer(serializers.ModelSerializer):
         group.column.set(columns_data)
         return group        
 
-class ContentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Todo
-        exclude = ['pub_group']
-
 
 class ContentDetailSerializer(serializers.ModelSerializer):
         
@@ -70,7 +65,7 @@ class ContentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Todo
-        fields = ["uuid","pub_user","content","pub_group","importance_level","column"]
+        fields = ["uuid","pub_user","content","pub_group","column","importance_level","column","deadline"]
 
     def validate(self, data):
         group_list = []

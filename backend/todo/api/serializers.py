@@ -12,31 +12,12 @@ class ColumnSerializer(serializers.ModelSerializer):
         model = Column
         fields = ["name"]
 
-# ユーザーをリストに入れる カンマで区切る, 一つ一つをobjects.get()
+
 class GroupSerializer(serializers.ModelSerializer):
-
-    # user_in_group = UserDisplayOnlyUsernameSerializer(many=True)
-    #user_in_group_id = serializers.PrimaryKeyRelatedField(
-    #    queryset=User.objects.filter(), source='user_in_group', write_only=True)
-    #column = ColumnSerializer(many=True)
-    #column_id = serializers.PrimaryKeyRelatedField(
-    #    queryset=Column.objects.filter(), source='column', write_only=True)
-
-    # user_in_group=serializers.SerializerMethodField()
-
     class Meta:
         model = Group
         # fields = ["uuid","name","user_in_group","column"]
         fields = "__all__"
-
-    # def get_user_in_group(self,instance):
-    #     # return instance.user_in_group
-    #     # return ', '.join([x for x in str(instance.user_in_group)])
-    #     user_list = []
-    #     for user in instance.user_in_group.all:
-    #         user_list.append(str(User.objects.get(username=user)))
-    #     return user_list
-
 
     def create(self, validated_data):
         users_data = validated_data.pop('user_in_group') 
@@ -47,6 +28,24 @@ class GroupSerializer(serializers.ModelSerializer):
         group.user_in_group.set(users_data)
         group.column.set(columns_data)
         return group        
+
+    def update(self, instance, validated_data):
+        #if validated_data.get('name', instance.name) != "":
+        instance.name = validated_data.get('name', instance.name)
+        #if validated_data.get('user_in_group', instance.user_in_group) != "[]":
+        instance.user_in_group.set(validated_data.get('user_in_group', instance.user_in_group))
+        #if validated_data.get('column', instance.column) !="[]":
+        instance.column.set(validated_data.get('column', instance.column))
+        instance = super().update(instance, validated_data)
+        return instance
+
+
+
+    # checkkkkkkkkkk
+class ContentSerializer(serializers.Serializer):
+    class Meta:
+        model = Todo
+        exclude = ["pub_in_group"]
 
 
 class ContentDetailSerializer(serializers.ModelSerializer):
@@ -62,6 +61,7 @@ class ContentDetailSerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField(read_only=True)
     pub_user = serializers.StringRelatedField(read_only=True)
+    deadline = serializers.DateTimeField(required=False)
 
     class Meta:
         model=Todo
@@ -69,12 +69,20 @@ class ContentSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         group_list = []
+        column_list = []
         # ここが肝
         # print(self.context['request'].user)
         for item in Group.objects.filter(user_in_group__username= self.context['request'].user).values_list('name', flat=True):
             group_list.append(item)
+            
+        for item in Group.objects.get(name=data.get("pub_group")).column.all().values_list(flat=True):
+            column_list.append(item)
 
-        if self.context['request'].user.is_superuser:
+        if not data.get("column") in column_list:
+            raise serializers.ValidationError(
+                    "アクセス許可のあるカラムに含まれていません")       
+
+        elif self.context['request'].user.is_superuser:
             return data
 
         elif not str(data.get("pub_group")) in group_list:
@@ -82,6 +90,11 @@ class ContentSerializer(serializers.ModelSerializer):
                     "あなたはこのグループに投稿できません") 
 
         return data
+
+    # def validate_column(self, value):
+    #     if value in Column.objects.get():
+    #         print("アクセス許可のあるカラムに含まれています")
+    #         return data
 
 
 

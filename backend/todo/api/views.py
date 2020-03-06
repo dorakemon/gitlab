@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError
@@ -26,6 +26,26 @@ class GroupDetailAPIView(APIView):
 
         else: 
             raise ValidationError("You cannot access this!")
+
+    def put(self, request, pk, *arg, **kwargs):
+        group = get_object_or_404(Group, pk=pk)
+        serializer = GroupSerializer(instance=group, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    # def patch(self, request, pk, *arg, **kwargs):
+    #     group = get_object_or_404(Group, pk=pk)
+    #     serializer = GroupSerializer(instance=group, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(GroupSerializer(question).data)
+    
+    def delete(self, request, pk, *args, **kwargs):
+        group = get_object_or_404(Group, pk=pk)
+        group.delete()
+        return Response("group deleted", status=status.HTTP_204_NO_CONTENT)
+
 
 class GroupListAPIView(generics.ListCreateAPIView):
 

@@ -28,16 +28,16 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        users_data = validated_data.pop('user_in_group')
+        users_data = vagroup lidated_data.pop('user_in_group')
         columns_data = validated_data.pop('column')
         # user = User.objects.get(username=user_data['username'])
         # column = Column.objects.get(name=column_data['name'])
         # group = Group.objects.create(uner_in_group=user, column=column, **validated_data)
         #print("validatedata",users_data)
         #print("columndata",columns_data)
-        group = Group.objects.create()
+        group = Group.objects.create(name=validated_data.pop('name'))
         for user_data in users_data:
-            group = Group.objects.add(user_in_group=user_data, **validated_data)
+            group.add(user_in_group=user_data, **validated_data)
         return group
 
     # def create(self, validated_data):

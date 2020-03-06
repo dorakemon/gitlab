@@ -7,8 +7,8 @@ from todo.api.views import (GroupDetailAPIView,
 
 urlpatterns = [
     path("group/", GroupListAPIView.as_view(), name="group-detail"),
-    path("group/<int:pk>/", GroupDetailAPIView.as_view(), name="group-detail"),
-    path("group/<int:pk>/content/", ContentDetailAPIView.as_view(), name="content-detail"),
+    path("group/<str:pk>/", GroupDetailAPIView.as_view(), name="group-detail"),
+    path("group/<str:pk>/content/", ContentDetailAPIView.as_view(), name="content-detail"),
     path("content/", ContentCreateAPIView.as_view(), name="content"),
     path("content/<str:uuid>/", ContentRUDAPIView.as_view(), name="content-detail")
 ]

@@ -9,7 +9,7 @@ from django.db.models.signals import post_save, pre_save, m2m_changed
 from django.dispatch import receiver
 
 from .models import Group
-from .models import Todo
+from .models import Todo, Column
 
 import sys
 sys.path.append('../')
@@ -25,20 +25,20 @@ def post_save_user_signal_handler(sender, instance, created, **kwargs):
         user=User.objects.get(username=str(instance))
         group.user_in_group.add(user)
         # 1,2,3はそれぞれTO DO, IN PROGRESS, DONE
-        group.objects.update(column=1)
+        group.column.add(1,2,3)
         # print(instance)
         # print(created)
         # print(sender)
 
-
-## ここがうまくいかない デフォルトのカラムをVueがわでユーザーに追加させるのはあり
 # @receiver([post_save,m2m_changed], sender=Group)
 # def post_save_todo_add_column(sender, instance, created, **kwargs):
 #     if created:
-#         print("signal fired")
-
-#         print(group)
-#         group.column.add(1,2,3)
+#         todo = Column.objects.get(name="TO DO")
+#         in_progress = Column.objects.get(name="IN PROGRESS")
+#         done = Column.objects.get(name="DONE")
+#         instance.column.set(todo)
+#         instance.column.set(in_progress)
+#         instance.column.set(done)
 
 
 # post_saveだと発火はするものの追加はされない

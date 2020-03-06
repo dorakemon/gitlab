@@ -22,39 +22,31 @@ class GroupSerializer(serializers.ModelSerializer):
     #column_id = serializers.PrimaryKeyRelatedField(
     #    queryset=Column.objects.filter(), source='column', write_only=True)
 
+    # user_in_group=serializers.SerializerMethodField()
+
     class Meta:
         model = Group
         # fields = ["uuid","name","user_in_group","column"]
         fields = "__all__"
 
-    def create(self, validated_data):
-        users_data = vagroup lidated_data.pop('user_in_group')
-        columns_data = validated_data.pop('column')
-        # user = User.objects.get(username=user_data['username'])
-        # column = Column.objects.get(name=column_data['name'])
-        # group = Group.objects.create(uner_in_group=user, column=column, **validated_data)
-        #print("validatedata",users_data)
-        #print("columndata",columns_data)
-        group = Group.objects.create(name=validated_data.pop('name'))
-        for user_data in users_data:
-            group.add(user_in_group=user_data, **validated_data)
-        return group
+    # def get_user_in_group(self,instance):
+    #     # return instance.user_in_group
+    #     # return ', '.join([x for x in str(instance.user_in_group)])
+    #     user_list = []
+    #     for user in instance.user_in_group.all:
+    #         user_list.append(str(User.objects.get(username=user)))
+    #     return user_list
 
-    # def create(self, validated_data):
-    #     users = self.user_in_group
-    #     print(users)
-    #     columns = self.column
-    #     print(validated_data)
-    #     # for users_data in validated_data.pop('user_in_group'):
-    #     #     # ** ?
-    #     #     users.append(Users.object.get(username=**users_data))
-    #     # for column_data in validated_data.pop('column'):
-    #     #     columns.append(Column.objects.get(name=**column_data))
-    #     group = super().create(validated_data)
-    #     # group.column.set(columns)
-    #     # group.user_in_group.set(users)
-    #     return group
-        
+
+    def create(self, validated_data):
+        users_data = validated_data.pop('user_in_group') 
+        columns_data = validated_data.pop('column')
+        name=validated_data.pop('name')
+
+        group = super().create(validated_data)
+        group.user_in_group.set(users_data)
+        group.column.set(columns_data)
+        return group        
 
 class ContentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -102,3 +94,4 @@ class ContentSerializer(serializers.ModelSerializer):
 
 # {"name": "try from json","user_in_group": [{"username": "Tom"},{"username": "Jiro"}],"column": [{"name": "TO DO"}]}
 # {"username": "Tom"}
+# {"name": "test from json","user_in_group": ["5b20f990-97ef-41a6-8b30-2d8b785605aa","556d47a5-8e08-4bdb-8af9-a1b39c3f6c96"],"column": [1]}

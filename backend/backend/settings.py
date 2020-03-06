@@ -133,3 +133,32 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
 
 AUTH_USER_MODEL = 'users.User'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "http://localhost:3001",
+    "http://3.112.235.240:3001"
+]
+
+
+## ここから以下
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        #Simple JWTの読み込み
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+from datetime import timedelta
+
+#Simple JWTの設定
+SIMPLE_JWT = {
+    #トークンをJWTに設定
+    'AUTH_HEADER_TYPES': ('JWT',),
+    #トークンの持続時間の設定
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5)
+}

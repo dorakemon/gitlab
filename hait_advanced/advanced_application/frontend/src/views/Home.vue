@@ -1,21 +1,32 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-    <DAD />
+    <div>
+      <h3>Group</h3>
+      <router-link class="btn btn-outline-success" v-for="(group, groupId) in groups" :key="group.id" :to="{ name: 'Group', params: {groupId: groupId} }">{{ group.name }}</router-link>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-import DAD from "@/components/DAD.vue";
+import axios from "axios";
 
 export default {
   name: "Home",
-  components: {
-    // HelloWorld,
-    DAD
+  data() {
+    return {
+      url: "http://127.0.0.1:8000/api/",
+      groups: ""
+    }
+  },
+  mounted() {
+    axios.get(this.url + "user/")
+    .then(response => {
+      this.groups = response.data.personal_group
+    })
   }
 };
 </script>
+
+<style scoped>
+</style>

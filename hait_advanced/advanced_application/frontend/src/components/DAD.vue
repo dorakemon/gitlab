@@ -1,11 +1,12 @@
 <template>
+
   <div>
     <div id="status">
       <span v-show="status.moving">移動中</span>
       <span v-show="status.fixed">そのアイテムは操作できません</span>
     </div>
     <div>
-      <h3>グループA（{{itemsA.length}}）</h3>
+      <h3>TODO（{{itemsA.length}}）</h3>
       <draggable
         v-model="itemsA"
         group="myGroup"
@@ -29,7 +30,7 @@
       </draggable>
     </div>
     <div>
-      <h3>グループB （{{itemsB.length}}）</h3>
+      <h3>IN PREGRESS （{{itemsB.length}}）</h3>
       <draggable
         v-model="itemsB"
         group="myGroup"
@@ -53,7 +54,7 @@
       </draggable>
     </div>
     <div>
-      <h3>グループC （{{itemsC.length}}）</h3>
+      <h3>DONE （{{itemsC.length}}）</h3>
       <draggable
         v-model="itemsC"
         group="myGroup"
@@ -90,6 +91,8 @@ export default {
 
   data() {
     return {
+      test: "",
+      url: "http://127.0.0.1:8000/api/",
       options: {
         group: "myGroup",
         animation: 200,
@@ -122,7 +125,6 @@ export default {
       }
     };
   },
-
   computed: {
     isFixed() {
       return fixed => {

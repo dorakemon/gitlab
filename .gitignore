@@ -2,3 +2,5 @@ venv
 venv-test-dev
 
 __pycache__
+
+node_modules

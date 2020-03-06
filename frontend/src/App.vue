@@ -1,19 +1,23 @@
 <template>
-  <div id="app">
+  <v-app>
     <div id="nav">
       <NavBar />
     </div>
     <router-view />
-  </div>
+  </v-app>
 </template>
 <script>
   import NavBar from "@/components/NavBar.vue"
 
   export default {
+    name: 'App',
     components:{
       NavBar
-    }
-  }
+    },
+    data: () => ({
+      showPassword: false
+    }),
+  };
 </script>
 <style>
 #app {

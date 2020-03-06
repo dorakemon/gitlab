@@ -1,9 +1,0 @@
-.dist
-.vscode
-venv
-env
-
-*__pycache__
-*.pyc
-
-test

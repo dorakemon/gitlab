@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "venv-test-dev\\Scripts\\python.exe",
+    "sqltools.connections": [],
+    "sqltools.useNodeRuntime": true
+}

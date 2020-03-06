@@ -25,7 +25,7 @@ def post_save_user_signal_handler(sender, instance, created, **kwargs):
         user=User.objects.get(username=str(instance))
         group.user_in_group.add(user)
         # 1,2,3はそれぞれTO DO, IN PROGRESS, DONE
-        group.column.add(1,2,3)
+        group.objects.update(column=1)
         # print(instance)
         # print(created)
         # print(sender)

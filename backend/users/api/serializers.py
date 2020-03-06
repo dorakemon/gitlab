@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from users.models import User, Course, Faculty, Place
 
+
 class CourseSerializer(serializers.ModelSerializer):
     """Userモデルのシリアライザのコースネストの子"""
     
@@ -50,7 +51,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class UserDisplaySerializer(serializers.ModelSerializer):
-
+    gender = serializers.SerializerMethodField()
     place_name = serializers.ReadOnlyField(source='place.name')
     course = CourseSerializer(many=True)
     university_faculty = FacultySerializer()
@@ -61,7 +62,13 @@ class UserDisplaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id","username","place_name","course","university_faculty","is_superuser","personal_group"]
+        fields = ["uuid","username","gender","birthday","place_name","course","university_faculty","is_superuser","personal_group"]
+
+    def get_gender(self, instance):
+        if instance.gender == 1:
+            return "男性"
+        if instance.gender == 2:
+            return "女性"
 
 class UserDisplayOnlyUsernameSerializer(serializers.ModelSerializer):
     class Meta:

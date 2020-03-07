@@ -2,6 +2,7 @@
   <div class="home">
     <div>
       <h3>Group</h3>
+      <DAD></DAD>
       <router-link class="btn btn-outline-success" v-for="(group, groupId) in groups" :key="group.id" :to="{ name: 'Group', params: {groupId: groupId} }">{{ group.name }}</router-link>
     </div>
   </div>
@@ -10,9 +11,11 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
+import DAD from "@/components/DAD.vue"
 
 export default {
   name: "Home",
+  components:{DAD},
   data() {
     return {
       url: "http://127.0.0.1:8000/api/",

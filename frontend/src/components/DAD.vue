@@ -1,83 +1,105 @@
 <template>
 
-  <div>
-    <div id="status">
+  <v-app>
+    <!-- <v-container> -->
+    <!-- <div id="status">
       <span v-show="status.moving">移動中</span>
       <span v-show="status.fixed">そのアイテムは操作できません</span>
-    </div>
-    <div>
-      <h3>TODO（{{itemsA.length}}）</h3>
-      <draggable
-        v-model="itemsA"
-        group="myGroup"
-        :options="options"
-        @choose="onChoose"
-        @start="onStart"
-        @clone="onClone"
-        @add="onAdd"
-        @remove="onRemove"
-        @update="onUpdate"
-        @sort="onSort"
-        @filter="onFilter"
-        @end="onEnd"
-      >
-        <div
-          class="item"
-          v-for="(item,index) in itemsA"
-          :key="index"
-          :class="isFixed(item.fixed)"
-        >{{item.name}}</div>
-      </draggable>
-    </div>
-    <div>
-      <h3>IN PREGRESS （{{itemsB.length}}）</h3>
-      <draggable
-        v-model="itemsB"
-        group="myGroup"
-        :options="options"
-        @choose="onChoose"
-        @start="onStart"
-        @clone="onClone"
-        @add="onAdd"
-        @remove="onRemove"
-        @update="onUpdate"
-        @sort="onSort"
-        @filter="onFilter"
-        @end="onEnd"
-      >
-        <div
-          class="item"
-          v-for="item in itemsB"
-          :key="item.id"
-          :class="isFixed(item.fixed)"
-        >{{item.name}}</div>
-      </draggable>
-    </div>
-    <div>
-      <h3>DONE （{{itemsC.length}}）</h3>
-      <draggable
-        v-model="itemsC"
-        group="myGroup"
-        :options="options"
-        @choose="onChoose"
-        @start="onStart"
-        @clone="onClone"
-        @add="onAdd"
-        @remove="onRemove"
-        @update="onUpdate"
-        @sort="onSort"
-        @filter="onFilter"
-        @end="onEnd"
-      >
-        <div
-          class="item"
-          v-for="item in itemsC"
-          :key="item.id"
-          :class="isFixed(item.fixed)"
-        >{{item.name}}</div>
-      </draggable>
-    </div>
-  </div>
+    </div> -->
+      <v-row>
+        <div key=1 center=True style="margin-left:50px;">
+          <v-card color="#EBECF0" style="width:400px">
+            <h3>TODO（{{itemsA.length}}）</h3>
+            
+              <draggable
+                v-model="itemsA"
+                group="myGroup"
+                :options="options"
+                @choose="onChoose"
+                @start="onStart"
+                @clone="onClone"
+                @add="onAdd"
+                @remove="onRemove"
+                @update="onUpdate"
+                @sort="onSort"
+                @filter="onFilter"
+                @end="onEnd"
+              >
+                <v-card
+                  class="item"
+                  v-for="(item,index) in itemsA"
+                  :key="index"
+                  :class="isFixed(item.fixed)"
+                  width= "90%"
+                >{{item.name}}
+                </v-card>
+              </draggable>
+              <v-btn center=True width= "90%" color="#EBECF0" depressed=False>さらに追加</v-btn>
+            </v-card>
+        </div>
+
+        <div key=2 center=True style="margin-left:50px;">
+          <v-card color="#EBECF0" style="width:400px">
+          <h3>IN PREGRESS （{{itemsB.length}}）</h3>
+              <draggable
+                v-model="itemsB"
+                group="myGroup"
+                :options="options"
+                @choose="onChoose"
+                @start="onStart"
+                @clone="onClone" 
+                @add="onAdd"
+                @remove="onRemove"
+                @update="onUpdate"
+                @sort="onSort"
+                @filter="onFilter"
+                @end="onEnd"
+              >
+                <v-card
+                  class="item"
+                  v-for="(item,index) in itemsB"
+                  :key="index"
+                  :class="isFixed(item.fixed)"
+                  width= "90%"
+                >{{item.name}}
+                </v-card>
+              </draggable>
+              <v-btn center=True width= "90%" color="#EBECF0" depressed=False>さらに追加</v-btn>
+            </v-card>
+        </div>
+
+        <div key=3 center=True style="margin-left:50px;">
+          <v-card color="#EBECF0" style="width:400px">
+            <h3>DONE （{{itemsC.length}}）</h3>
+              <draggable
+                v-model="itemsC"
+                group="myGroup"
+                :options="options"
+                @choose="onChoose"
+                @start="onStart"
+                @clone="onClone"
+                @add="onAdd"
+                @remove="onRemove"
+                @update="onUpdate"
+                @sort="onSort"
+                @filter="onFilter"
+                @end="onEnd"
+              >
+                <v-card
+                  class="item"
+                  v-for="(item,index) in itemsC"
+                  :key="index"
+                  :class="isFixed(item.fixed)"
+                  width= "90%"
+                >{{item.name}}
+                </v-card>
+              </draggable>
+              <v-btn center=True width= "90%" color="#EBECF0" depressed=False>さらに追加</v-btn>
+            </v-card>
+        </div>
+      </v-row>
+    <!-- </v-container> -->
+  </v-app>
 </template>
 
 <script>
@@ -188,20 +210,26 @@ export default {
   border: 1px solid #42b983;
 }
 .item {
+  width :100px;
   display: inline-block;
   margin: 10px;
   padding: 10px;
-  border: 1px solid #7f7f7f;
-  border-radius: 10px;
+  /* border: 1px solid #7f7f7f; */
+  /* border-radius: 10px; */
   background-color: #ffffff;
 }
 .item:hover {
   cursor: grab;
 }
+
 .item:active {
   cursor: grabbing;
 }
-.sortable-chosen {
-  background-color: #42b983;
+
+.v-col {
+  width: 500px;
 }
+/* .sortable-chosen {
+  background-color: #42b983;
+} */
 </style>

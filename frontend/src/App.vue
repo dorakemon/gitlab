@@ -1,18 +1,21 @@
 <template>
   <v-app>
-    <div id="nav">
-      <NavBar />
-    </div>
-    <router-view />
+    <app-navbar
+      :user="user"
+      :logout="logout"
+      ></app-navbar>
+    <v-content>
+      <router-view/>
+    </v-content>
   </v-app>
 </template>
 <script>
-  import NavBar from "@/components/NavBar.vue"
+  import AppNavbar from '@/components/AppNavbar';
 
   export default {
     name: 'App',
     components:{
-      NavBar
+      AppNavbar
     },
     data: () => ({
       showPassword: false
